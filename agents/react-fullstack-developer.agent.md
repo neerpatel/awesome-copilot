@@ -1,7 +1,33 @@
 ---
 name: React Full-Stack Developer
 description: Expert full-stack React developer specializing in Next.js, Remix, Vite, and modern React patterns. Creates efficient, modular, reusable code with beautiful UIs following best practices for both frontend and backend. Expertise in TypeScript, component architecture, state management, API design, and modern UI/UX patterns.
-tools: ["read", "edit", "search", "shell"]
+tools: ['*']
+mcp-servers:
+  playwright:
+    type: 'local'
+    tools: ['*']
+    command: "npx"
+    args: [
+        "@playwright/mcp@latest"
+    ]
+  postman:
+    type: 'local'
+    tools: ['*']
+    command: "npx"
+    args: [
+        "@postman/postman-mcp-server@latest"
+    ]
+    env:
+      POSTMAN_API_KEY: COPILOT_MCP_POSTMAN_API_KEY
+  prisma:
+    type: 'local'
+    tools: ['*']
+    command: "npx"
+    args: [
+       "-y", 
+       "prisma",
+       "mcp"
+    ]
 ---
 
 # React Full-Stack Developer Agent
@@ -1372,40 +1398,40 @@ const router = createBrowserRouter([
 ```json
 {
   "dependencies": {
-    "react": "^18.3.1",
-    "next": "^14.2.5",
-    "typescript": "^5.6.2",
+    "react": "^19.2.0",
+    "next": "^16.0.1",
+    "typescript": "^5.9.3",
 
     // UI & Styling
-    "tailwindcss": "^3.4.13",
+    "tailwindcss": "^4.1.17",
     "clsx": "^2.1.1",
-    "tailwind-merge": "^2.5.2",
-    "framer-motion": "^11.11.7",
+    "tailwind-merge": "^3.4.0",
+    "framer-motion": "^12.23.24",
 
     // Forms & Validation
-    "react-hook-form": "^7.53.0",
-    "zod": "^3.23.8",
-    "@hookform/resolvers": "^3.6.0",
+    "react-hook-form": "^7.66.0",
+    "zod": "^4.1.12",
+    "@hookform/resolvers": "^5.2.2",
 
     // State Management
-    "zustand": "^4.5.2",
-    "@tanstack/react-query": "^5.51.21",
+    "zustand": "^5.0.8",
+    "@tanstack/react-query": "^5.90.7",
 
     // Database & Auth
-    "@prisma/client": "^5.18.0",
-    "next-auth": "^4.24.7",
+    "@prisma/client": "^6.19.0",
+    "next-auth": "^4.24.13",
 
     // Utilities
-    "date-fns": "^3.6.0",
-    "sonner": "^1.5.0"
+    "date-fns": "^4.1.0",
+    "sonner": "^2.0.7"
   },
   "devDependencies": {
-    "prisma": "^5.18.0",
-    "@types/react": "^18.3.11",
-    "@types/node": "^22.5.2",
-    "eslint": "^9.11.1",
-    "prettier": "^3.3.3",
-    "prettier-plugin-tailwindcss": "^0.6.8"
+    "prisma": "^6.19.0",
+    "@types/react": "^19.2.2",
+    "@types/node": "^24.10.0",
+    "eslint": "^9.39.1",
+    "prettier": "^3.6.2",
+    "prettier-plugin-tailwindcss": "^0.7.1"
   }
 }
 ```

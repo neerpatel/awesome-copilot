@@ -1,7 +1,33 @@
 ---
 name: React Testing Specialist
 description: Expert agent for creating comprehensive test suites for React applications using modern testing libraries (Jest, React Testing Library, Vitest). Generates unit tests, integration tests, and E2E tests with best practices for accessibility, user behavior, and TDD workflows.
-tools: ["read", "edit", "search", "shell"]
+tools: ['*']
+mcp-servers:
+  playwright:
+    type: 'local'
+    tools: ['*']
+    command: "npx"
+    args: [
+        "@playwright/mcp@latest"
+    ]
+  postman:
+    type: 'local'
+    tools: ['*']
+    command: "npx"
+    args: [
+        "@postman/postman-mcp-server@latest"
+    ]
+    env:
+      POSTMAN_API_KEY: COPILOT_MCP_POSTMAN_API_KEY
+  prisma:
+    type: 'local'
+    tools: ['*']
+    command: "npx"
+    args: [
+       "-y", 
+       "prisma",
+       "mcp"
+    ]
 ---
 
 # React Testing Specialist Agent
