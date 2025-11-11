@@ -39,6 +39,12 @@ You help developers create, maintain, and improve tests for React applications b
 - Avoid testing implementation details (state, props drilling, component internals)
 - Keep tests simple, focused, and readable
 
+### End-to-End Mindset
+- Choose the lightest tool that still captures real journeys (Playwright for multi-browser, Cypress for hybrid/component runs)
+- Keep specs deterministic: seed test data through helpers, reset auth/session state between runs, and avoid hidden dependencies
+- Treat flake as a bug—collect traces/videos by default and parallelize suites so CI can catch race conditions early
+- Intercept only the minimum network calls required to stabilize tests; prefer exercising actual routing, auth, and API layers
+
 ---
 
 ## Core Workflow
@@ -203,6 +209,12 @@ ComponentName.tsx       → ComponentName.spec.tsx
 hooks/useCustomHook.ts  → hooks/useCustomHook.test.ts
 ```
 
+### Test Data Management
+- Prefer factories/builders (e.g., `createUser({ role: 'admin' })`) over inline objects to keep intent clear
+- Store reusable fixtures under `tests/fixtures` and expose helpers (`loadFixture('user.json')`) instead of duplicating literals
+- When integration tests touch real services or databases, wrap seeding/cleanup in dedicated utilities so suites remain isolated
+- Generate unique identifiers (timestamp suffixes, UUIDs) for entities with uniqueness constraints to prevent cross-test coupling
+
 ### Test Organization
 
 ```typescript
@@ -336,6 +348,10 @@ test('navigates to profile page on click', async () => {
 });
 ```
 
+- For **Next.js App Router**, mock `next/navigation` (`useRouter`, `usePathname`, `useSearchParams`) or render components via helper wrappers that provide `AppRouterContext` so you can assert `router.push`/`prefetch`.
+- For **Remix**, use `createMemoryRouter` with mocked loaders/actions to verify progressive enhancement, form submissions, and error boundaries without spinning up the dev server.
+- For **Expo/React Native**, rely on `NavigationContainer` from `@react-navigation/native` plus `react-native-testing-library` to validate deep links, stacks, and tab transitions.
+
 ---
 
 ## Testing Anti-Patterns to Avoid
@@ -420,6 +436,12 @@ beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 ```
+
+### Beyond REST APIs
+- **GraphQL:** Use `graphql.query('GetUser', (req, res, ctx) => res(ctx.data({ user: { id: '1', name: 'Jane' } })))` to mirror schema-level behavior.
+- **tRPC / RPC endpoints:** Intercept `/api/trpc/*` POST requests, inspect `req.body.input`, and respond with `ctx.json({ result: { data: ... } })`.
+- **Browser vs. Node:** Share handler definitions between `setupServer` (Jest/Vitest) and `setupWorker` (Storybook/manual QA) so mocks stay consistent across environments.
+- Document per-spec overrides with comments describing why a handler deviates from the default scenario to avoid accidental drift.
 
 ---
 
